@@ -1,0 +1,119 @@
+<div class="script-processor">
+  <h2>Script Processor</h2>
+  
+  <div class="input-mode-selector">
+    <button 
+      [class.active]="inputMode === 'file'"
+      (click)="inputMode = 'file'">
+      Upload File
+    </button>
+    <button 
+      [class.active]="inputMode === 'text'"
+      (click)="inputMode = 'text'">
+      Paste Text
+    </button>
+  </div>
+  
+  <div class="upload-section" *ngIf="inputMode === 'file'">
+    <label class="file-upload">
+      <input type="file" (change)="onFileSelected($event)" accept=".txt">
+      <span>Choose Script File</span>
+    </label>
+    <div *ngIf="fileName" class="file-name">
+      Selected file: {{ fileName }}
+    </div>
+  </div>
+
+  <div class="text-input-section" *ngIf="inputMode === 'text'">
+    <textarea 
+      [(ngModel)]="scriptContent"
+      placeholder="Paste your script text here..."
+      rows="10">
+    </textarea>
+    <button (click)="onPastedText()" class="process-button">
+      Process Text
+    </button>
+  </div>
+
+  <div class="script-content" *ngIf="scriptLines.length > 0">
+    <h3>Script Content</h3>
+    
+    <div class="script-lines">
+      <div *ngFor="let line of scriptLines; let i = index" class="script-line"
+           [class.active]="selectedLine === i">
+        <div class="line-number">{{ i + 1 }}</div>
+        <div class="line-content">
+          <div class="line-edit">
+            <div class="line-actions">
+              <button (click)="moveLine(i, 'up')" [disabled]="i === 0" class="move-button" title="Move Up">↑</button>
+              <button (click)="moveLine(i, 'down')" [disabled]="i === scriptLines.length - 1" class="move-button" title="Move Down">↓</button>
+              <button (click)="deleteLine(i)" class="delete-button" title="Delete Line">×</button>
+              <button (click)="addNewLineAfter(i)" class="add-button" title="Add New Line">+</button>
+            </div>
+            <textarea 
+              [(ngModel)]="scriptLines[i]"
+              (ngModelChange)="updateLine(i)"
+              class="line-input"
+              [rows]="getTextareaRows(scriptLines[i])"
+              (input)="adjustTextareaHeight($event)">
+            </textarea>
+          </div>
+          <div class="line-controls">
+            <select [(ngModel)]="lineCharacters[i]" 
+                    (ngModelChange)="updateLine(i)"
+                    class="character-select">
+              <option value="">Select Character</option>
+              <option *ngFor="let char of characters" [value]="char.id">
+                {{ char.name }}
+              </option>
+            </select>
+            <select [(ngModel)]="lineTypes[i]" 
+                    (ngModelChange)="updateLine(i)"
+                    class="type-select">
+              <option value="DIALOGUE">Dialogue</option>
+              <option value="NARRATION">Narration</option>
+              <option value="ACTION">Action</option>
+            </select>
+            <select *ngIf="lineTypes[i] === 'DIALOGUE'"
+                    [(ngModel)]="lineEmotions[i]"
+                    (ngModelChange)="updateLine(i)"
+                    class="emotion-select">
+              <option value="NEUTRAL">Neutral</option>
+              <option value="HAPPY">Happy</option>
+              <option value="SAD">Sad</option>
+              <option value="ANGRY">Angry</option>
+              <option value="EXCITED">Excited</option>
+            </select>
+            <button 
+              (click)="playLine(i)" 
+              class="play-button"
+              [class.playing]="currentPlayingLine === i">
+              {{ currentPlayingLine === i ? '⏹️' : '▶️' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button (click)="generateJson()" 
+              [disabled]="!isProcessingComplete()"
+              class="generate-button">
+        Generate JSON
+      </button>
+      <button (click)="generateAudioFile('wav')"
+              [disabled]="!isProcessingComplete() || isGeneratingAudio"
+              class="generate-button">
+        {{ isGeneratingAudio ? 'Generating Audio...' : 'Generate WAV Audio' }}
+      </button>
+      <button (click)="generateAudioFile('mp3')"
+              [disabled]="!isProcessingComplete() || isGeneratingAudio"
+              class="generate-button">
+        {{ isGeneratingAudio ? 'Generating Audio...' : 'Generate MP3 Audio' }}
+      </button>
+      <div *ngIf="!isProcessingComplete()" class="warning">
+        Please assign characters to all lines before generating output
+      </div>
+    </div>
+  </div>
+</div>

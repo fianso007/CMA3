@@ -1,0 +1,255 @@
+.script-processor {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.input-mode-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-mode-selector button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.input-mode-selector button.active {
+  background: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.upload-section {
+  margin: 20px 0;
+  padding: 20px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.text-input-section {
+  margin: 20px 0;
+}
+
+.text-input-section textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-family: inherit;
+}
+
+.process-button {
+  width: 100%;
+  padding: 10px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.file-upload {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.file-upload input[type="file"] {
+  display: none;
+}
+
+.file-upload span {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.file-upload:hover span {
+  background: #0056b3;
+}
+
+.file-name {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.script-lines {
+  max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.script-line {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.script-line:hover {
+  background: #f8f9fa;
+}
+
+.script-line.active {
+  background: #e9ecef;
+}
+
+.line-number {
+  width: 40px;
+  color: #666;
+  font-size: 0.9em;
+  text-align: right;
+  padding-right: 10px;
+  border-right: 1px solid #ddd;
+  float: left;
+  margin-right: 15px;
+  padding-top: 8px;
+}
+
+.line-content {
+  margin-left: 55px;
+}
+
+.line-edit {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.line-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.move-button, .delete-button, .add-button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.move-button {
+  background: #6c757d;
+  color: white;
+}
+
+.move-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.delete-button {
+  background: #dc3545;
+  color: white;
+}
+
+.add-button {
+  background: #28a745;
+  color: white;
+}
+
+.line-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  min-height: 38px;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.5;
+  font-family: inherit;
+}
+
+.line-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.line-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.character-select {
+  min-width: 150px;
+}
+
+.type-select {
+  min-width: 100px;
+}
+
+.emotion-select {
+  min-width: 100px;
+}
+
+.play-button {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.play-button:hover {
+  background: #f0f0f0;
+}
+
+.play-button.playing {
+  background: #e9ecef;
+  color: #dc3545;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.generate-button {
+  padding: 10px 20px;
+  font-size: 1.1em;
+}
+
+.warning {
+  color: #dc3545;
+  font-size: 0.9em;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

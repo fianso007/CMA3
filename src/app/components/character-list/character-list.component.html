@@ -1,0 +1,135 @@
+<div class="character-list">
+  <h2>Characters</h2>
+  
+  <div class="character-actions">
+    <button (click)="exportCharacters()" class="action-button">
+      Export Characters
+    </button>
+    <label class="file-upload">
+      <input type="file" (change)="importCharacters($event)" accept=".json">
+      <span>Import Characters</span>
+    </label>
+  </div>
+  
+  <!-- Character Creation Form -->
+  <div class="character-form" *ngIf="showForm">
+    <h3>{{ editingCharacter ? 'Edit Character' : 'Create New Character' }}</h3>
+    <div class="form-group">
+      <label>Name:</label>
+      <input type="text" [(ngModel)]="currentCharacter.name" placeholder="Character name">
+    </div>
+    
+    <div class="form-group">
+      <label>Patterns (one per line):</label>
+      <textarea 
+        [(ngModel)]="patternsText" 
+        placeholder="Enter patterns (one per line)"
+        rows="4">
+      </textarea>
+    </div>
+    
+    <div class="form-group">
+      <label>Default Emotion:</label>
+      <select [(ngModel)]="currentCharacter.defaultEmotion">
+        <option value="NEUTRAL">Neutral</option>
+        <option value="HAPPY">Happy</option>
+        <option value="SAD">Sad</option>
+        <option value="ANGRY">Angry</option>
+        <option value="EXCITED">Excited</option>
+      </select>
+    </div>
+    
+    <div class="voice-settings">
+      <div class="form-group">
+        <label>Voice:</label>
+        <select [(ngModel)]="currentCharacter.voiceSettings.voice">
+          <option *ngFor="let voice of availableVoices" [value]="voice.id">
+            {{ voice.name }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Pitch (0.5-2.0):</label>
+        <input 
+          type="range" 
+          min="0.5" 
+          max="2.0" 
+          step="0.1" 
+          [(ngModel)]="currentCharacter.voiceSettings.pitch">
+        <span>{{ currentCharacter.voiceSettings.pitch }}</span>
+      </div>
+      
+      <div class="form-group">
+        <label>Rate (0.5-2.0):</label>
+        <input 
+          type="range" 
+          min="0.5" 
+          max="2.0" 
+          step="0.1" 
+          [(ngModel)]="currentCharacter.voiceSettings.rate">
+        <span>{{ currentCharacter.voiceSettings.rate }}</span>
+      </div>
+      
+      <div class="form-group">
+        <label>Volume (0-1.0):</label>
+        <input 
+          type="range" 
+          min="0" 
+          max="1" 
+          step="0.1" 
+          [(ngModel)]="currentCharacter.voiceSettings.volume">
+        <span>{{ currentCharacter.voiceSettings.volume }}</span>
+      </div>
+
+      <div class="voice-preview">
+        <input type="text" [(ngModel)]="previewText" placeholder="Enter preview text">
+        <button (click)="previewVoice()" class="preview-button">
+          🔊 Preview Voice
+        </button>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button (click)="saveCharacter()" class="primary">
+        {{ editingCharacter ? 'Update' : 'Create' }} Character
+      </button>
+      <button (click)="cancelEdit()" class="secondary">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Character List -->
+  <div class="character-grid">
+    <div *ngFor="let character of characters" class="character-card">
+      <div class="card-header">
+        <h3>{{ character.name || 'Unnamed Character' }}</h3>
+        <div class="card-actions">
+          <button (click)="editCharacter(character)" class="icon-button">✏️</button>
+          <button (click)="deleteCharacter(character)" class="icon-button">🗑️</button>
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <div class="character-id">ID: {{ character.id }}</div>
+        <div class="patterns-list">
+          <strong>Patterns:</strong>
+          <ul>
+            <li *ngFor="let pattern of character.patterns">{{ pattern }}</li>
+          </ul>
+        </div>
+        <div class="character-emotion">
+          Default Emotion: {{ character.defaultEmotion }}
+        </div>
+        <div class="voice-info">
+          <div>Voice: {{ getVoiceName(character.voiceSettings.voice) }}</div>
+          <div>Pitch: {{ character.voiceSettings.pitch }}</div>
+          <div>Rate: {{ character.voiceSettings.rate }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="startNewCharacter()" *ngIf="!showForm" class="add-button">
+    Add New Character
+  </button>
+</div>
